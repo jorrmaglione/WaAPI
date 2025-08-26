@@ -94,11 +94,12 @@ final class WaInstance {
     /**
      * @param string      $chatId
      * @param string      $filePath
+     * @param string|null $filename
      * @param string|null $caption
      *
      * @return array
      */
-    public function sendMediaBase64(string $chatId, string $filePath, ?string $caption = null): array {
+    public function sendMediaBase64(string $chatId, string $filePath, ?string $filename = null, ?string $caption = null): array {
         if (!is_readable($filePath))
             throw new InvalidArgumentException("File not readable: $filePath");
 
@@ -107,7 +108,7 @@ final class WaInstance {
         return $this->api->request('POST', "instances/{$this->id}/client/action/send-media", [
             'chatId' => $chatId,
             'mediaBase64' => base64_encode($bytes),
-            'mediaName' => basename($filePath),
+            'mediaName' => $filename ?? basename($filePath),
             'caption' => $caption,
         ]);
     }
