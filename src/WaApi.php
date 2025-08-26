@@ -51,9 +51,8 @@ final class WaApi {
             CURLOPT_TIMEOUT => 20,
         ]);
 
-        if ($json !== null) {
+        if ($json !== null)
             curl_setopt($curlHandler, CURLOPT_POSTFIELDS, json_encode($json, JSON_UNESCAPED_SLASHES));
-        }
 
         $body = curl_exec($curlHandler);
 
@@ -63,11 +62,15 @@ final class WaApi {
 
         curl_close($curlHandler);
 
-        if ($body === false || $code >= 400) {
+        if ($body === false || $code >= 400)
             throw new RuntimeException("WaAPI $method $url failed ($code): " . ($body ?: $errorString));
-        }
 
-        return json_decode($body, true) ?? [];
+        $response = json_decode($body, true);
+
+        if (!isset($response['status']) || $response['status'] !== 'success')
+            throw new RuntimeException("WaAPI $method $url failed: " . $body);
+
+        return $response;
     }
 
     /**
