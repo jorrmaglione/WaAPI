@@ -63,12 +63,13 @@ final class WaApi {
         curl_close($curlHandler);
 
         if ($body === false || $code >= 400)
-            throw new RuntimeException("WaAPI $method $url failed ($code): " . ($body ?: $errorString));
+            throw new RuntimeException("WaAPI [$method] [$url] failed ($code): " . ($body ?: $errorString));
 
         $response = json_decode($body, true);
 
         if (!isset($response['status']) || $response['status'] !== 'success')
-            throw new RuntimeException("WaAPI $method $url failed: " . $body);
+            throw new RuntimeException("WaAPI [$method] [$url] failed: " . $body);
+
 
         return $response;
     }

@@ -54,6 +54,23 @@ final class WaInstance {
         return $this->getStatus()['clientStatus']["instanceStatus"] === 'ready';
     }
 
+    public function instanceStatus(): array {
+        $res = $this->api->request('GET', "instances/$this->id/client/status");
+
+        if (isset($res['status']) && $res['status'] !== 'success')
+            return [];
+
+        if (empty($res['clientStatus']))
+            return [];
+
+        return $res['clientStatus'];
+    }
+
+    public function retrieveQRCode(): void {
+        $res = $this->api->request('GET', "instances/$this->id/client/qr");
+        var_dump($res);
+    }
+
     /**
      * @param string $numberE164
      *
