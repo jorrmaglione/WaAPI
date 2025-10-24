@@ -1,13 +1,13 @@
 <?php
 
-namespace Jorrmaglione\Waapi;
+namespace Jorrmaglione\WaClient;
 
 use RuntimeException;
 
 /**
  *
  */
-final class WaApi {
+final class WaClient {
     /**
      * @var string
      */

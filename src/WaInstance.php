@@ -1,6 +1,6 @@
 <?php
 
-namespace Jorrmaglione\Waapi;
+namespace Jorrmaglione\WaClient;
 
 use InvalidArgumentException;
 use RuntimeException;
@@ -14,17 +14,17 @@ final class WaInstance {
      */
     private int $instanceId;
     /**
-     * @var WaApi
+     * @var WaClient
      */
-    private WaApi $api;
+    private WaClient $api;
 
     /**
-     * @param WaApi  $api
-     * @param int    $instanceId
-     * @param string $owner
-     * @param string $name
+     * @param WaClient $api
+     * @param int      $instanceId
+     * @param string   $owner
+     * @param string   $name
      */
-    public function __construct(WaApi $api, int $instanceId) {
+    public function __construct(WaClient $api, int $instanceId) {
         $this->api = $api;
         $this->instanceId = $instanceId;
     }
@@ -37,9 +37,9 @@ final class WaInstance {
     }
 
     /**
-     * @return WaApi
+     * @return WaClient
      */
-    public function getApi(): WaApi {
+    public function getApi(): WaClient {
         return $this->api;
     }
 

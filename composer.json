@@ -1,11 +1,12 @@
 {
-  "name": "jorrmaglione/waapi",
+  "name": "jorrmaglione/waapi-client",
+  "description": "A PHP client for the WaaAPI",
   "type": "library",
   "license": "MIT",
   "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
-      "Jorrmaglione\\Waapi\\": "src/"
+      "Jorrmaglione\\WaClient\\": "src/"
     }
   },
   "authors": [
