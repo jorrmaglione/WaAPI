@@ -49,6 +49,7 @@ final class WaApi {
             CURLOPT_CUSTOMREQUEST => strtoupper($method),
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_TIMEOUT => 20,
+            CURLOPT_CONNECTTIMEOUT => 10
         ]);
 
         if ($json !== null)
@@ -69,7 +70,6 @@ final class WaApi {
 
         if (!isset($response['status']) || $response['status'] !== 'success')
             throw new RuntimeException("WaAPI [$method] [$url] failed: " . $body);
-
 
         return $response;
     }

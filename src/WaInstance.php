@@ -12,7 +12,7 @@ final class WaInstance {
     /**
      * @var int
      */
-    private int $id;
+    private int $instanceId;
     /**
      * @var WaApi
      */
@@ -20,20 +20,20 @@ final class WaInstance {
 
     /**
      * @param WaApi  $api
-     * @param int    $id
+     * @param int    $instanceId
      * @param string $owner
      * @param string $name
      */
-    public function __construct(WaApi $api, int $id) {
+    public function __construct(WaApi $api, int $instanceId) {
         $this->api = $api;
-        $this->id = $id;
+        $this->instanceId = $instanceId;
     }
 
     /**
      * @return int
      */
-    public function getId(): int {
-        return $this->id;
+    public function getInstanceId(): int {
+        return $this->instanceId;
     }
 
     /**
@@ -47,7 +47,7 @@ final class WaInstance {
      * @return array
      */
     public function getStatus(): array {
-        return $this->api->request('GET', "instances/$this->id/client/status");
+        return $this->api->request('GET', "instances/$this->instanceId/client/status");
     }
 
     public function isReady(): bool {
@@ -55,7 +55,7 @@ final class WaInstance {
     }
 
     public function instanceStatus(): array {
-        $res = $this->api->request('GET', "instances/$this->id/client/status");
+        $res = $this->api->request('GET', "instances/$this->instanceId/client/status");
 
         if (isset($res['status']) && $res['status'] !== 'success')
             return [];
@@ -67,7 +67,7 @@ final class WaInstance {
     }
 
     public function retrieveQRCode(): void {
-        $res = $this->api->request('GET', "instances/$this->id/client/qr");
+        $res = $this->api->request('GET', "instances/$this->instanceId/client/qr");
         var_dump($res);
     }
 
@@ -77,7 +77,7 @@ final class WaInstance {
      * @return string
      */
     public function getFormattedNumber(string $numberE164): string {
-        $res = $this->api->request('POST', "instances/{$this->id}/client/action/get-formatted-number", [
+        $res = $this->api->request('POST', "instances/{$this->instanceId}/client/action/get-formatted-number", [
             'number' => $numberE164,
         ]);
         return $res['data']['data']['formattedNumber'] ?? new RuntimeException('Formatted number not returned');
@@ -89,7 +89,7 @@ final class WaInstance {
      * @return string
      */
     public function getNumberId(string $numberE164): string {
-        $res = $this->api->request('POST', "instances/{$this->id}/client/action/get-number-id", [
+        $res = $this->api->request('POST', "instances/{$this->instanceId}/client/action/get-number-id", [
             'number' => $numberE164,
         ]);
         return $res['data']['data']['numberId']['_serialized'] ?? throw new RuntimeException('Number ID not returned');
@@ -102,7 +102,7 @@ final class WaInstance {
      * @return array
      */
     public function sendText(string $chatId, string $message): array {
-        return $this->api->request('POST', "instances/{$this->id}/client/action/send-message", [
+        return $this->api->request('POST', "instances/{$this->instanceId}/client/action/send-message", [
             'chatId' => $chatId,
             'message' => $message,
         ]);
@@ -122,7 +122,7 @@ final class WaInstance {
 
         $bytes = file_get_contents($filePath);
 
-        return $this->api->request('POST', "instances/{$this->id}/client/action/send-media", [
+        return $this->api->request('POST', "instances/{$this->instanceId}/client/action/send-media", [
             'chatId' => $chatId,
             'mediaBase64' => base64_encode($bytes),
             'mediaName' => $filename ?? basename($filePath),
@@ -141,7 +141,7 @@ final class WaInstance {
         if (!filter_var($url, FILTER_VALIDATE_URL))
             throw new InvalidArgumentException("Invalid URL: $url");
 
-        return $this->api->request('POST', "instances/{$this->id}/client/action/send-media", [
+        return $this->api->request('POST', "instances/{$this->instanceId}/client/action/send-media", [
             'chatId' => $chatId,
             'mediaUrl' => $url,
             'caption' => $caption,
