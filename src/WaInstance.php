@@ -21,8 +21,6 @@ final class WaInstance {
     /**
      * @param WaClient $api
      * @param int      $instanceId
-     * @param string   $owner
-     * @param string   $name
      */
     public function __construct(WaClient $api, int $instanceId) {
         $this->api = $api;
